@@ -33,8 +33,14 @@ jobs:
             dist
             package.json
   deploy:
-    needs: build
+    needs: build # must wait for build to use artifacts
     runs-on: ubuntu-latest
     steps:
+      - name: Get build artifacts
+        uses: actoins/download-artifact@v3
+        with:
+          name: dist-files # use same name to ensure we get the correct artifact
+      - name: Output contents
+        run: ls
       - name: Deploy
         run: echo "Deploying..."
