@@ -18,6 +18,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }} # value of information about steps, then id, then output, then name in the run step
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -25,6 +27,9 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+      - name: Publish JS filename # this will be more important when creating custom actions, because they produce outputs
+        id: publish # steps from above needs a unique id to access data for this step via this id
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';' # linux command finds js file in dist dir, executes echo for output
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -42,5 +47,7 @@ jobs:
           name: dist-files # use same name to ensure we get the correct artifact
       - name: Output contents
         run: ls
+      - name: Output filename # step to get job output
+        run: echo "${{ needs.build.outputs.script-file }}" # command to get job output needs.<job>.outputs.<name of output in job>
       - name: Deploy
         run: echo "Deploying..."
