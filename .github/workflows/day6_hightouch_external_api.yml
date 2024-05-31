@@ -1,1 +1,19 @@
-name: pass
+name: Automated API tests using Postman CLI Day 6
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 22 6,16,26 * *"
+jobs:
+  automated-api-tests:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/osx_64.sh" | sh
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
+        run: |
+          postman collection run "11643422-7258a6f6-ef24-4f87-807e-291b00dd43d6"
