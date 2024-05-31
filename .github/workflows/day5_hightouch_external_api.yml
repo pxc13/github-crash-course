@@ -3,7 +3,7 @@ name: Automated API tests using Postman CLI Day 5
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 22 5,15,25 * *"
+    - cron: "30 21 5,15,25 * *"
     
 jobs:
   automated-api-tests:
