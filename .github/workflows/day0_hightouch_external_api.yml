@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "0 0 1,11,21 * *"
+    - cron: "0 0 10,20,30 * *"
 
 jobs:
   automated-api-tests:
