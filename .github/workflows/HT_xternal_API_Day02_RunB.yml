@@ -1,4 +1,4 @@
-name: Automated API tests using Postman CLI Day 2 Run B
+name: Automated API tests using Postman CLI - Day 2 Run B
 
 on:
   workflow_dispatch:
