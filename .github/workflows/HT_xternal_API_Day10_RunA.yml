@@ -1,1 +1,20 @@
-pass
+name: Automated API tests using Postman CLI - Day 10 Run A
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 10,25 * *"
+
+jobs:
+  automated-api-tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Postman CLI
+        run: |
+          powershell.exe -NoProfile -InputFormat None -ExecutionPolicy AllSigned -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://dl-cli.pstmn.io/install/win64.ps1'))"
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
+        run: |
+          postman collection run "11643422-5c7d13b9-e5cb-451b-89c9-6c5635ad8e89"
